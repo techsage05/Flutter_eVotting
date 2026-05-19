@@ -23,83 +23,124 @@ class _SplashScreenState extends State<SplashScreen> {
           width: double.infinity,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color.fromARGB(255, 84, 182, 243), Colors.purple],
+              colors: [
+                Color(0xFF1A2980), // Deep indigo
+                Color(0xFF26D0CE), // Cyan-ish blue
+              ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
-          padding: const EdgeInsets.all(16.0),
-          child: const Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 16.0,
+            ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'version 1.0',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
+                // Top section (Version)
+                const Align(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    'v1.0',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      letterSpacing: 1.5,
                     ),
-                  ],
+                  ),
                 ),
-                SizedBox(height: 110),
-                Text(
+
+                const Spacer(),
+
+                // Middle section (Logo & Title)
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 30,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                  child: const Image(
+                    image: NetworkImage('https://i.ibb.co/5Wnqy4dH/logo.png'),
+                    height: 130,
+                    width: 130,
+                  ),
+                ),
+
+                const SizedBox(height: 32),
+
+                const Text(
                   'E-Voting.org',
                   style: TextStyle(
                     fontFamily: 'Pacifico',
-                    fontSize: 32,
+                    fontSize: 42,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Colors.white,
+                    letterSpacing: 1.2,
                   ),
                 ),
-                SizedBox(height: 60),
 
-                Image(
-                  image: NetworkImage('https://i.ibb.co/5Wnqy4dH/logo.png'),
-                  height: 150,
-                  width: 150,
+                const SizedBox(height: 12),
+
+                const Text(
+                  'Secure & Transparent Voting',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white70,
+                    letterSpacing: 1.0,
+                  ),
                 ),
 
-                SizedBox(height: 20),
+                const Spacer(),
 
-                CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                // Bottom section (Loading & Footer)
+                const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  strokeWidth: 3,
                 ),
 
-                SizedBox(height: 16),
-                Text(
+                const SizedBox(height: 20),
+
+                const Text(
                   'Loading...',
                   style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white70,
+                    letterSpacing: 1.5,
                   ),
                 ),
-                SizedBox(height: 150),
-                Divider(color: Colors.black, thickness: 1),
-                Row(
+
+                const SizedBox(height: 40),
+
+                const Divider(color: Colors.black, thickness: 1),
+
+                const SizedBox(height: 16),
+
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'Made with ',
-                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      style: TextStyle(fontSize: 14, color: Colors.black),
                     ),
-                    Icon(
-                      Icons.copyright_rounded,
-                      color: Colors.black,
-                      size: 24,
-                    ),
+                    Icon(Icons.copyright, color: Colors.black, size: 18),
                     Text(
-                      ' by Hitesh prajapati',
-                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      ' by Hitesh Prajapati',
+                      style: TextStyle(fontSize: 14, color: Colors.black),
                     ),
                   ],
                 ),
-                Divider(color: Colors.black, thickness: 1),
+                const SizedBox(height: 8),
               ],
             ),
           ),
