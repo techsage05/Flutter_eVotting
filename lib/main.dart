@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
-import 'splashScreen.dart';
+import 'screens/splashScreen.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter App',
-      theme: ThemeData(primarySwatch: Colors.blue),
+
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1A2980)),
+      ),
+
       home: const SplashScreen(),
     );
   }
