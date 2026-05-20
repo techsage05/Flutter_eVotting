@@ -8,7 +8,23 @@ class ElectionDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Election Details")),
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: const Color(0xFF1A2980),
+
+        // ── Back Button ──────────────────────────────────────────────────────
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          tooltip: 'Go back',
+          onPressed: () => Navigator.pop(context),
+        ),
+
+        title: const Text(
+          "Election Details",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
 
       body: Center(
         child: Padding(
@@ -18,27 +34,59 @@ class ElectionDetailScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
 
             children: [
-              const Icon(Icons.how_to_vote, size: 100),
-
-              const SizedBox(height: 20),
-
-              Text(
-                electionName,
-
-                textAlign: TextAlign.center,
-
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
+              // ── Icon ──────────────────────────────────────────────────────
+              Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1A2980).withOpacity(0.08),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.how_to_vote,
+                  size: 90,
+                  color: Color(0xFF1A2980),
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
 
+              // ── Election Name ─────────────────────────────────────────────
+              Text(
+                electionName,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1A2980),
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              // ── Sub-text ──────────────────────────────────────────────────
               const Text(
                 "Election information page",
+                style: TextStyle(fontSize: 16, color: Colors.grey),
+              ),
 
-                style: TextStyle(fontSize: 18),
+              const SizedBox(height: 36),
+
+              // ── Back Button (in body too for clarity) ─────────────────────
+              OutlinedButton.icon(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.arrow_back),
+                label: const Text("Go Back"),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color(0xFF1A2980),
+                  side: const BorderSide(color: Color(0xFF1A2980)),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 28,
+                    vertical: 12,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
               ),
             ],
           ),

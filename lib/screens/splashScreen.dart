@@ -1,35 +1,25 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // Navigate to HomeScreen after 3 seconds
+    Future.delayed(const Duration(seconds: 3), () {
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        );
+      }
+    });
+
     return Scaffold(
       body: Container(
         height: double.infinity,
         width: double.infinity,
-
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFF1A2980), Color(0xFF26D0CE)],
@@ -37,19 +27,15 @@ class _SplashScreenState extends State<SplashScreen> {
             end: Alignment.bottomRight,
           ),
         ),
-
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-
           child: Column(
             children: [
               /// Version
               const Align(
                 alignment: Alignment.topRight,
-
                 child: Text(
                   'v1.0',
-
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
@@ -64,11 +50,9 @@ class _SplashScreenState extends State<SplashScreen> {
               /// Logo
               Container(
                 padding: const EdgeInsets.all(20),
-
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.1),
                   shape: BoxShape.circle,
-
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
@@ -77,7 +61,6 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                   ],
                 ),
-
                 child: const Image(
                   image: NetworkImage('https://i.ibb.co/5Wnqy4dH/logo.png'),
                   height: 130,
@@ -90,7 +73,6 @@ class _SplashScreenState extends State<SplashScreen> {
               /// App Name
               const Text(
                 'E-Voting.org',
-
                 style: TextStyle(
                   fontSize: 42,
                   fontWeight: FontWeight.bold,
@@ -104,7 +86,6 @@ class _SplashScreenState extends State<SplashScreen> {
               /// Subtitle
               const Text(
                 'Secure & Transparent Voting',
-
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -125,7 +106,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
               const Text(
                 'Loading...',
-
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -143,15 +123,12 @@ class _SplashScreenState extends State<SplashScreen> {
               /// Footer
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-
                 children: [
                   Text(
                     'Made with ',
                     style: TextStyle(fontSize: 14, color: Colors.black),
                   ),
-
                   Icon(Icons.copyright, color: Colors.black, size: 18),
-
                   Text(
                     ' by Hitesh Prajapati',
                     style: TextStyle(fontSize: 14, color: Colors.black),
