@@ -2,8 +2,21 @@ import 'package:flutter/material.dart';
 
 class ElectionDetailScreen extends StatelessWidget {
   final String electionName;
+  final VoidCallback? onBack;
 
-  const ElectionDetailScreen({super.key, required this.electionName});
+  const ElectionDetailScreen({
+    super.key,
+    required this.electionName,
+    this.onBack,
+  });
+
+  void _goBack(BuildContext context) {
+    if (onBack != null) {
+      onBack!();
+    } else {
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +30,7 @@ class ElectionDetailScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
           tooltip: 'Go back',
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => _goBack(context),
         ),
 
         title: const Text(
@@ -73,7 +86,7 @@ class ElectionDetailScreen extends StatelessWidget {
 
               // ── Back Button (in body too for clarity) ─────────────────────
               OutlinedButton.icon(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => _goBack(context),
                 icon: const Icon(Icons.arrow_back),
                 label: const Text("Go Back"),
                 style: OutlinedButton.styleFrom(
