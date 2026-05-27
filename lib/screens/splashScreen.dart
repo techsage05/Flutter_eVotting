@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import '../services/storage_service.dart';
+import '../models/user_model.dart';
+import 'auth_screen.dart';
+import 'admin_dashboard.dart';
+import 'voter_dashboard.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Navigate to HomeScreen after 3 seconds
-    Future.delayed(const Duration(seconds: 3), () {
+    // Initialize data seeds and check session after 3 seconds
+    Future.delayed(const Duration(seconds: 3), () async {
+      await StorageService.initAndSeed();
+      final UserModel? currentUser = await StorageService.getCurrentUser();
+
       if (context.mounted) {
+        Widget destination;
+        if (currentUser == null) {
+          destination = const AuthScreen();
+        } else if (currentUser.role == 'admin') {
+          destination = const AdminDashboard();
+        } else {
+          destination = const VoterDashboard();
+        }
+
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          MaterialPageRoute(builder: (context) => destination),
         );
       }
     });
