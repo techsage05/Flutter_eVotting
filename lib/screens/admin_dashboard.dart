@@ -23,26 +23,57 @@ class _AdminDashboardState extends State<AdminDashboard> {
   // Form Controllers
   final TextEditingController titleController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
-  
+
   DateTime? listingTime;
   DateTime? startTime;
   DateTime? endTime;
-  
+
   List<PartyModel> tempParties = [];
 
   // Candidate Dialog Controllers
   final TextEditingController partyNameController = TextEditingController();
   final TextEditingController candidateNameController = TextEditingController();
-  final TextEditingController candidateDetailsController = TextEditingController();
+  final TextEditingController candidateDetailsController =
+      TextEditingController();
   String selectedSymbol = 'lotus';
 
   final List<Map<String, dynamic>> symbolOptions = [
-    {'id': 'lotus', 'name': 'Lotus', 'icon': Icons.brightness_high, 'color': Colors.orange},
-    {'id': 'hand', 'name': 'Hand', 'icon': Icons.front_hand, 'color': Colors.blue},
-    {'id': 'broom', 'name': 'Broom', 'icon': Icons.cleaning_services, 'color': Colors.brown},
-    {'id': 'elephant', 'name': 'Elephant', 'icon': Icons.cruelty_free, 'color': Colors.blueGrey},
-    {'id': 'cycle', 'name': 'Bicycle', 'icon': Icons.directions_bike, 'color': Colors.green},
-    {'id': 'star', 'name': 'Star', 'icon': Icons.star, 'color': Colors.yellow.shade700},
+    {
+      'id': 'lotus',
+      'name': 'Lotus',
+      'icon': Icons.brightness_high,
+      'color': Colors.orange,
+    },
+    {
+      'id': 'hand',
+      'name': 'Hand',
+      'icon': Icons.front_hand,
+      'color': Colors.blue,
+    },
+    {
+      'id': 'broom',
+      'name': 'Broom',
+      'icon': Icons.cleaning_services,
+      'color': Colors.brown,
+    },
+    {
+      'id': 'elephant',
+      'name': 'Elephant',
+      'icon': Icons.cruelty_free,
+      'color': Colors.blueGrey,
+    },
+    {
+      'id': 'cycle',
+      'name': 'Bicycle',
+      'icon': Icons.directions_bike,
+      'color': Colors.green,
+    },
+    {
+      'id': 'star',
+      'name': 'Star',
+      'icon': Icons.star,
+      'color': Colors.yellow.shade700,
+    },
   ];
 
   @override
@@ -83,9 +114,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
       } else {
         titleController.clear();
         cityController.clear();
-        
+
         final now = DateTime.now();
-        listingTime = now.subtract(const Duration(minutes: 1)); // Listed immediately by default
+        listingTime = now.subtract(
+          const Duration(minutes: 1),
+        ); // Listed immediately by default
         startTime = now.add(const Duration(hours: 1));
         endTime = now.add(const Duration(days: 1));
         tempParties = [];
@@ -162,8 +195,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
           builder: (context, setDialogState) {
             return AlertDialog(
               title: Text(
-                index == null ? "Add Party & Candidate" : "Edit Party & Candidate",
-                style: const TextStyle(color: Color(0xFF1A2980), fontWeight: FontWeight.bold),
+                index == null
+                    ? "Add Party & Candidate"
+                    : "Edit Party & Candidate",
+                style: const TextStyle(
+                  color: Color(0xFF1A2980),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               content: SingleChildScrollView(
                 child: Column(
@@ -171,23 +209,32 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   children: [
                     TextField(
                       controller: partyNameController,
-                      decoration: const InputDecoration(labelText: "Party Name (e.g. BJP, Congress)"),
+                      decoration: const InputDecoration(
+                        labelText: "Party Name (e.g. BJP, Congress)",
+                      ),
                     ),
                     const SizedBox(height: 8),
                     TextField(
                       controller: candidateNameController,
-                      decoration: const InputDecoration(labelText: "Candidate Name"),
+                      decoration: const InputDecoration(
+                        labelText: "Candidate Name",
+                      ),
                     ),
                     const SizedBox(height: 8),
                     TextField(
                       controller: candidateDetailsController,
                       maxLines: 2,
-                      decoration: const InputDecoration(labelText: "Candidate Manifesto/Details"),
+                      decoration: const InputDecoration(
+                        labelText: "Candidate Manifesto/Details",
+                      ),
                     ),
                     const SizedBox(height: 16),
                     const Align(
                       alignment: Alignment.centerLeft,
-                      child: Text("Select Party Symbol:", style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text(
+                        "Select Party Symbol:",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Wrap(
@@ -202,20 +249,38 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             });
                           },
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
                             decoration: BoxDecoration(
-                              color: isSel ? const Color(0xFF1A2980) : Colors.grey.shade100,
+                              color: isSel
+                                  ? const Color(0xFF1A2980)
+                                  : Colors.grey.shade100,
                               borderRadius: BorderRadius.circular(15),
-                              border: Border.all(color: isSel ? const Color(0xFF1A2980) : Colors.grey.shade300),
+                              border: Border.all(
+                                color: isSel
+                                    ? const Color(0xFF1A2980)
+                                    : Colors.grey.shade300,
+                              ),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(option['icon'], size: 16, color: isSel ? Colors.white : option['color']),
+                                Icon(
+                                  option['icon'],
+                                  size: 16,
+                                  color: isSel ? Colors.white : option['color'],
+                                ),
                                 const SizedBox(width: 4),
                                 Text(
                                   option['name'],
-                                  style: TextStyle(color: isSel ? Colors.white : Colors.black87, fontSize: 12),
+                                  style: TextStyle(
+                                    color: isSel
+                                        ? Colors.white
+                                        : Colors.black87,
+                                    fontSize: 12,
+                                  ),
                                 ),
                               ],
                             ),
@@ -239,7 +304,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
                     if (party.isEmpty || cand.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Please fill in Party and Candidate names")),
+                        const SnackBar(
+                          content: Text(
+                            "Please fill in Party and Candidate names",
+                          ),
+                        ),
                       );
                       return;
                     }
@@ -261,7 +330,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
                     Navigator.pop(context);
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF1A2980), foregroundColor: Colors.white),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1A2980),
+                    foregroundColor: Colors.white,
+                  ),
                   child: const Text("Save"),
                 ),
               ],
@@ -278,19 +350,31 @@ class _AdminDashboardState extends State<AdminDashboard> {
     final city = cityController.text.trim();
 
     if (title.isEmpty || city.isEmpty) {
-      showSnackBar("Please fill in the title and city fields", Colors.redAccent);
+      showSnackBar(
+        "Please fill in the title and city fields",
+        Colors.redAccent,
+      );
       return;
     }
     if (listingTime == null || startTime == null || endTime == null) {
-      showSnackBar("Please select listing, start, and end times", Colors.redAccent);
+      showSnackBar(
+        "Please select listing, start, and end times",
+        Colors.redAccent,
+      );
       return;
     }
     if (startTime!.isBefore(listingTime!)) {
-      showSnackBar("Start time cannot be before listing time", Colors.redAccent);
+      showSnackBar(
+        "Start time cannot be before listing time",
+        Colors.redAccent,
+      );
       return;
     }
     if (endTime!.isBefore(startTime!)) {
-      showSnackBar("Result/End time cannot be before start time", Colors.redAccent);
+      showSnackBar(
+        "Result/End time cannot be before start time",
+        Colors.redAccent,
+      );
       return;
     }
     if (tempParties.isEmpty) {
@@ -333,7 +417,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   // ── DELETE WITH UNDO ───────────────────────────────────────────────────────
   void handleDeleteElection(ElectionModel election) async {
     final int deletedIndex = elections.indexOf(election);
-    
+
     // Save locally
     setState(() {
       elections.remove(election);
@@ -390,18 +474,24 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
   void showSnackBar(String message, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: color),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message), backgroundColor: color));
   }
 
   IconData getSymbolIcon(String symName) {
-    final opt = symbolOptions.firstWhere((o) => o['id'] == symName, orElse: () => symbolOptions.first);
+    final opt = symbolOptions.firstWhere(
+      (o) => o['id'] == symName,
+      orElse: () => symbolOptions.first,
+    );
     return opt['icon'] as IconData;
   }
 
   Color getSymbolColor(String symName) {
-    final opt = symbolOptions.firstWhere((o) => o['id'] == symName, orElse: () => symbolOptions.first);
+    final opt = symbolOptions.firstWhere(
+      (o) => o['id'] == symName,
+      orElse: () => symbolOptions.first,
+    );
     return opt['color'] as Color;
   }
 
@@ -417,8 +507,18 @@ class _AdminDashboardState extends State<AdminDashboard> {
         title: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Admin Dashboard", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
-            Text("E-Voting Portal Administrator", style: TextStyle(color: Colors.white70, fontSize: 11)),
+            Text(
+              "Admin Dashboard",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            Text(
+              "E-Voting Portal Administrator",
+              style: TextStyle(color: Colors.white70, fontSize: 11),
+            ),
           ],
         ),
         actions: [
@@ -468,21 +568,33 @@ class _AdminDashboardState extends State<AdminDashboard> {
               children: [
                 Text(
                   "Welcome, ${adminUser?.name ?? 'Admin'}!",
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 const Text(
                   "Create and manage city elections, customize timelines, add competing parties, and observe final results.",
-                  style: TextStyle(color: Colors.white85, fontSize: 12, height: 1.4),
+                  style: TextStyle(
+                    color: Color(0xD9FFFFFF),
+                    fontSize: 12,
+                    height: 1.4,
+                  ),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 20),
-          
+
           const Text(
             "Configured Elections",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1A2980)),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1A2980),
+            ),
           ),
           const SizedBox(height: 10),
 
@@ -492,14 +604,27 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.ballot_outlined, size: 64, color: Colors.grey.shade400),
+                        Icon(
+                          Icons.ballot_outlined,
+                          size: 64,
+                          color: Colors.grey.shade400,
+                        ),
                         const SizedBox(height: 12),
-                        const Text("No elections found.", style: TextStyle(color: Colors.grey, fontSize: 16)),
+                        const Text(
+                          "No elections found.",
+                          style: TextStyle(color: Colors.grey, fontSize: 16),
+                        ),
                         const SizedBox(height: 8),
                         TextButton(
                           onPressed: () => openForm(),
-                          child: const Text("Create one now", style: TextStyle(color: Color(0xFF26D0CE), fontWeight: FontWeight.bold)),
-                        )
+                          child: const Text(
+                            "Create one now",
+                            style: TextStyle(
+                              color: Color(0xFF26D0CE),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   )
@@ -513,7 +638,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       return Card(
                         margin: const EdgeInsets.only(bottom: 12),
                         elevation: 2,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         color: Colors.white,
                         child: ExpansionTile(
                           leading: CircleAvatar(
@@ -522,18 +649,44 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           ),
                           title: Text(
                             elec.title,
-                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
                           ),
                           subtitle: Row(
                             children: [
-                              const Icon(Icons.location_on, size: 12, color: Colors.grey),
+                              const Icon(
+                                Icons.location_on,
+                                size: 12,
+                                color: Colors.grey,
+                              ),
                               const SizedBox(width: 2),
-                              Text(elec.city, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                              Text(
+                                elec.city,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
                               const SizedBox(width: 12),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(color: col.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
-                                child: Text(status, style: TextStyle(fontSize: 10, color: col, fontWeight: FontWeight.bold)),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: col.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  status,
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: col,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -545,56 +698,84 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 children: [
                                   const Divider(height: 1),
                                   const SizedBox(height: 10),
-                                  buildTimeRow("Listing Time", elec.listingTime),
+                                  buildTimeRow(
+                                    "Listing Time",
+                                    elec.listingTime,
+                                  ),
                                   buildTimeRow("Voting Starts", elec.startTime),
-                                  buildTimeRow("Voting Ends (Results)", elec.endTime),
+                                  buildTimeRow(
+                                    "Voting Ends (Results)",
+                                    elec.endTime,
+                                  ),
                                   const SizedBox(height: 12),
-                                  
-                                  const Text("Candidates & Parties:", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+
+                                  const Text(
+                                    "Candidates & Parties:",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                    ),
+                                  ),
                                   const SizedBox(height: 6),
                                   Wrap(
                                     spacing: 8,
                                     runSpacing: 8,
                                     children: elec.parties.map((p) {
                                       return Chip(
-                                        avatar: Icon(getSymbolIcon(p.symbolName), size: 14, color: getSymbolColor(p.symbolName)),
-                                        label: Text("${p.candidateName} (${p.name})", style: const TextStyle(fontSize: 11)),
+                                        avatar: Icon(
+                                          getSymbolIcon(p.symbolName),
+                                          size: 14,
+                                          color: getSymbolColor(p.symbolName),
+                                        ),
+                                        label: Text(
+                                          "${p.candidateName} (${p.name})",
+                                          style: const TextStyle(fontSize: 11),
+                                        ),
                                         visualDensity: VisualDensity.compact,
                                         backgroundColor: Colors.grey.shade50,
                                       );
                                     }).toList(),
                                   ),
-                                  
+
                                   const SizedBox(height: 16),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       OutlinedButton.icon(
-                                        onPressed: () => openForm(election: elec),
+                                        onPressed: () =>
+                                            openForm(election: elec),
                                         icon: const Icon(Icons.edit, size: 16),
                                         label: const Text("Edit Details"),
                                         style: OutlinedButton.styleFrom(
                                           foregroundColor: Colors.blue,
-                                          side: const BorderSide(color: Colors.blue),
+                                          side: const BorderSide(
+                                            color: Colors.blue,
+                                          ),
                                           visualDensity: VisualDensity.compact,
                                         ),
                                       ),
                                       const SizedBox(width: 8),
                                       OutlinedButton.icon(
-                                        onPressed: () => handleDeleteElection(elec),
-                                        icon: const Icon(Icons.delete, size: 16),
+                                        onPressed: () =>
+                                            handleDeleteElection(elec),
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          size: 16,
+                                        ),
                                         label: const Text("Delete"),
                                         style: OutlinedButton.styleFrom(
                                           foregroundColor: Colors.red,
-                                          side: const BorderSide(color: Colors.red),
+                                          side: const BorderSide(
+                                            color: Colors.red,
+                                          ),
                                           visualDensity: VisualDensity.compact,
                                         ),
                                       ),
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       );
@@ -611,7 +792,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
       padding: const EdgeInsets.only(bottom: 4.0),
       child: Row(
         children: [
-          Text("$label: ", style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: Colors.black54)),
+          Text(
+            "$label: ",
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
+              color: Colors.black54,
+            ),
+          ),
           Text(
             "${dt.day.toString().padLeft(2, '0')}/${dt.month.toString().padLeft(2, '0')}/${dt.year} at "
             "${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}",
@@ -636,8 +824,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 onPressed: closeForm,
               ),
               Text(
-                editingElection == null ? "Create New Election" : "Edit Election Details",
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1A2980)),
+                editingElection == null
+                    ? "Create New Election"
+                    : "Edit Election Details",
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1A2980),
+                ),
               ),
             ],
           ),
@@ -645,7 +839,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
           Card(
             elevation: 3,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
             color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -677,20 +873,41 @@ class _AdminDashboardState extends State<AdminDashboard> {
           // TIMINGS CARD
           Card(
             elevation: 3,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
             color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Election Timelines", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF1A2980))),
+                  const Text(
+                    "Election Timelines",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Color(0xFF1A2980),
+                    ),
+                  ),
                   const SizedBox(height: 12),
-                  buildTimePickerRow("Listing Time (Visible to Voters)", listingTime, 'listing'),
+                  buildTimePickerRow(
+                    "Listing Time (Visible to Voters)",
+                    listingTime,
+                    'listing',
+                  ),
                   const Divider(height: 20),
-                  buildTimePickerRow("Voting Start Time (Ballots Open)", startTime, 'start'),
+                  buildTimePickerRow(
+                    "Voting Start Time (Ballots Open)",
+                    startTime,
+                    'start',
+                  ),
                   const Divider(height: 20),
-                  buildTimePickerRow("Voting End/Result Time (Ballots Close)", endTime, 'end'),
+                  buildTimePickerRow(
+                    "Voting End/Result Time (Ballots Close)",
+                    endTime,
+                    'end',
+                  ),
                 ],
               ),
             ),
@@ -700,7 +917,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
           // PARTIES / CANDIDATES CARD
           Card(
             elevation: 3,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
             color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -708,14 +927,23 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.between,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Candidates & Parties", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF1A2980))),
+                      const Text(
+                        "Candidates & Parties",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Color(0xFF1A2980),
+                        ),
+                      ),
                       TextButton.icon(
                         onPressed: () => showCandidateDialog(),
                         icon: const Icon(Icons.add, size: 18),
                         label: const Text("Add Candidate"),
-                        style: TextButton.styleFrom(foregroundColor: const Color(0xFF26D0CE)),
+                        style: TextButton.styleFrom(
+                          foregroundColor: const Color(0xFF26D0CE),
+                        ),
                       ),
                     ],
                   ),
@@ -727,7 +955,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           child: Center(
                             child: Text(
                               "No candidates added yet. Please add at least one.",
-                              style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontStyle: FontStyle.italic,
+                              ),
                             ),
                           ),
                         )
@@ -738,10 +969,16 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           itemBuilder: (context, index) {
                             final p = tempParties[index];
                             return ListTile(
-                              leading: Icon(getSymbolIcon(p.symbolName), color: getSymbolColor(p.symbolName), size: 28),
+                              leading: Icon(
+                                getSymbolIcon(p.symbolName),
+                                color: getSymbolColor(p.symbolName),
+                                size: 28,
+                              ),
                               title: Text("${p.candidateName} (${p.name})"),
                               subtitle: Text(
-                                p.details.isEmpty ? "No manifesto listed" : p.details,
+                                p.details.isEmpty
+                                    ? "No manifesto listed"
+                                    : p.details,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -749,11 +986,20 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   IconButton(
-                                    icon: const Icon(Icons.edit, color: Colors.blue, size: 18),
-                                    onPressed: () => showCandidateDialog(index: index),
+                                    icon: const Icon(
+                                      Icons.edit,
+                                      color: Colors.blue,
+                                      size: 18,
+                                    ),
+                                    onPressed: () =>
+                                        showCandidateDialog(index: index),
                                   ),
                                   IconButton(
-                                    icon: const Icon(Icons.delete, color: Colors.red, size: 18),
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                      size: 18,
+                                    ),
                                     onPressed: () {
                                       setState(() {
                                         tempParties.removeAt(index);
@@ -779,7 +1025,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   onPressed: closeForm,
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                   ),
                   child: const Text("CANCEL"),
                 ),
@@ -792,10 +1040,16 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     backgroundColor: const Color(0xFF1A2980),
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                     elevation: 3,
                   ),
-                  child: Text(editingElection == null ? "CREATE ELECTION" : "SAVE CHANGES"),
+                  child: Text(
+                    editingElection == null
+                        ? "CREATE ELECTION"
+                        : "SAVE CHANGES",
+                  ),
                 ),
               ),
             ],
@@ -809,7 +1063,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
   Widget buildTimePickerRow(String label, DateTime? value, String type) {
     String dtText = "Not Selected";
     if (value != null) {
-      dtText = "${value.day.toString().padLeft(2, '0')}/${value.month.toString().padLeft(2, '0')}/${value.year} at "
+      dtText =
+          "${value.day.toString().padLeft(2, '0')}/${value.month.toString().padLeft(2, '0')}/${value.year} at "
           "${value.hour.toString().padLeft(2, '0')}:${value.minute.toString().padLeft(2, '0')}";
     }
 
@@ -819,9 +1074,22 @@ class _AdminDashboardState extends State<AdminDashboard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.black87)),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13,
+                  color: Colors.black87,
+                ),
+              ),
               const SizedBox(height: 4),
-              Text(dtText, style: TextStyle(color: value == null ? Colors.redAccent : Colors.black54, fontSize: 12)),
+              Text(
+                dtText,
+                style: TextStyle(
+                  color: value == null ? Colors.redAccent : Colors.black54,
+                  fontSize: 12,
+                ),
+              ),
             ],
           ),
         ),
