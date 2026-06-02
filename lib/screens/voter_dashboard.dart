@@ -17,7 +17,7 @@ class _VoterDashboardState extends State<VoterDashboard> {
   List<ElectionModel> elections = [];
   bool isLoading = true;
   String selectedCity = "Vadodara";
-  
+
   // Voting State Control
   String viewMode = 'dashboard'; // 'dashboard' or 'ballot'
   ElectionModel? activeBallotElection;
@@ -26,12 +26,42 @@ class _VoterDashboardState extends State<VoterDashboard> {
   final List<String> cities = ["Vadodara", "Ahmedabad", "Surat"];
 
   final List<Map<String, dynamic>> symbolOptions = [
-    {'id': 'lotus', 'name': 'Lotus', 'icon': Icons.brightness_high, 'color': Colors.orange},
-    {'id': 'hand', 'name': 'Hand', 'icon': Icons.front_hand, 'color': Colors.blue},
-    {'id': 'broom', 'name': 'Broom', 'icon': Icons.cleaning_services, 'color': Colors.brown},
-    {'id': 'elephant', 'name': 'Elephant', 'icon': Icons.cruelty_free, 'color': Colors.blueGrey},
-    {'id': 'cycle', 'name': 'Bicycle', 'icon': Icons.directions_bike, 'color': Colors.green},
-    {'id': 'star', 'name': 'Star', 'icon': Icons.star, 'color': Colors.yellow.shade700},
+    {
+      'id': 'lotus',
+      'name': 'Lotus',
+      'icon': Icons.brightness_high,
+      'color': Colors.orange,
+    },
+    {
+      'id': 'hand',
+      'name': 'Hand',
+      'icon': Icons.front_hand,
+      'color': Colors.blue,
+    },
+    {
+      'id': 'broom',
+      'name': 'Broom',
+      'icon': Icons.cleaning_services,
+      'color': Colors.brown,
+    },
+    {
+      'id': 'elephant',
+      'name': 'Elephant',
+      'icon': Icons.cruelty_free,
+      'color': Colors.blueGrey,
+    },
+    {
+      'id': 'cycle',
+      'name': 'Bicycle',
+      'icon': Icons.directions_bike,
+      'color': Colors.green,
+    },
+    {
+      'id': 'star',
+      'name': 'Star',
+      'icon': Icons.star,
+      'color': Colors.yellow.shade700,
+    },
   ];
 
   // Track which elections this voter has already voted in (for UI optimization)
@@ -47,11 +77,11 @@ class _VoterDashboardState extends State<VoterDashboard> {
     setState(() => isLoading = true);
     await StorageService.initAndSeed();
     voter = await StorageService.getCurrentUser();
-    
+
     if (voter != null) {
       selectedCity = voter!.city;
     }
-    
+
     await refreshElections();
     setState(() => isLoading = false);
   }
@@ -59,14 +89,14 @@ class _VoterDashboardState extends State<VoterDashboard> {
   Future<void> refreshElections() async {
     final list = await StorageService.getElections();
     final Map<String, bool> statusMap = {};
-    
+
     if (voter != null) {
       for (var elec in list) {
         final voted = await StorageService.hasVoted(elec.id, voter!.mobile);
         statusMap[elec.id] = voted;
       }
     }
-    
+
     setState(() {
       elections = list;
       votedStatusMap = statusMap;
@@ -111,7 +141,10 @@ class _VoterDashboardState extends State<VoterDashboard> {
             children: [
               Icon(Icons.lock, color: const Color(0xFF1A2980).withOpacity(0.8)),
               const SizedBox(width: 8),
-              const Text("Confirm Your Vote", style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text(
+                "Confirm Your Vote",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ],
           ),
           content: Column(
@@ -125,18 +158,36 @@ class _VoterDashboardState extends State<VoterDashboard> {
                 decoration: BoxDecoration(
                   color: const Color(0xFF1A2980).withOpacity(0.05),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: const Color(0xFF1A2980).withOpacity(0.15)),
+                  border: Border.all(
+                    color: const Color(0xFF1A2980).withOpacity(0.15),
+                  ),
                 ),
                 child: Row(
                   children: [
-                    Icon(getSymbolIcon(party.symbolName), color: getSymbolColor(party.symbolName), size: 36),
+                    Icon(
+                      getSymbolIcon(party.symbolName),
+                      color: getSymbolColor(party.symbolName),
+                      size: 36,
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(party.candidateName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                          Text(party.name, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                          Text(
+                            party.candidateName,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            party.name,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -146,7 +197,11 @@ class _VoterDashboardState extends State<VoterDashboard> {
               const SizedBox(height: 16),
               const Text(
                 "Warning: This action is permanent and cannot be undone. To preserve your privacy, your identity is saved separately from your selection.",
-                style: TextStyle(color: Colors.grey, fontSize: 11, fontStyle: FontStyle.italic),
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 11,
+                  fontStyle: FontStyle.italic,
+                ),
               ),
             ],
           ),
@@ -174,10 +229,14 @@ class _VoterDashboardState extends State<VoterDashboard> {
 
   Future<void> executeVote(PartyModel party) async {
     setState(() => isVotingInProgress = true);
-    
+
     // Cast vote securely (anonymous split mechanism)
-    await StorageService.castVote(activeBallotElection!.id, voter!.mobile, party.name);
-    
+    await StorageService.castVote(
+      activeBallotElection!.id,
+      voter!.mobile,
+      party.name,
+    );
+
     // Simulate a brief secure transaction delay (700ms)
     await Future.delayed(const Duration(milliseconds: 700));
 
@@ -190,7 +249,9 @@ class _VoterDashboardState extends State<VoterDashboard> {
         barrierDismissible: false,
         builder: (context) {
           return Dialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(28.0),
               child: Column(
@@ -198,16 +259,34 @@ class _VoterDashboardState extends State<VoterDashboard> {
                 children: [
                   Container(
                     padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(color: Colors.teal.shade50, shape: BoxShape.circle),
-                    child: const Icon(Icons.check_circle, size: 64, color: Colors.teal),
+                    decoration: BoxDecoration(
+                      color: Colors.teal.shade50,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.check_circle,
+                      size: 64,
+                      color: Colors.teal,
+                    ),
                   ),
                   const SizedBox(height: 18),
-                  const Text("Vote Registered!", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF1A2980))),
+                  const Text(
+                    "Vote Registered!",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1A2980),
+                    ),
+                  ),
                   const SizedBox(height: 8),
                   const Text(
                     "Your cryptographic vote has been cast anonymously. Thank you for making your voice heard!",
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.black54, fontSize: 13, height: 1.4),
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 13,
+                      height: 1.4,
+                    ),
                   ),
                   const SizedBox(height: 24),
                   ElevatedButton(
@@ -219,7 +298,9 @@ class _VoterDashboardState extends State<VoterDashboard> {
                       backgroundColor: const Color(0xFF1A2980),
                       foregroundColor: Colors.white,
                       minimumSize: const Size(120, 44),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
                     child: const Text("BACK TO PORTAL"),
                   ),
@@ -260,12 +341,18 @@ class _VoterDashboardState extends State<VoterDashboard> {
   }
 
   IconData getSymbolIcon(String symName) {
-    final opt = symbolOptions.firstWhere((o) => o['id'] == symName, orElse: () => symbolOptions.first);
+    final opt = symbolOptions.firstWhere(
+      (o) => o['id'] == symName,
+      orElse: () => symbolOptions.first,
+    );
     return opt['icon'] as IconData;
   }
 
   Color getSymbolColor(String symName) {
-    final opt = symbolOptions.firstWhere((o) => o['id'] == symName, orElse: () => symbolOptions.first);
+    final opt = symbolOptions.firstWhere(
+      (o) => o['id'] == symName,
+      orElse: () => symbolOptions.first,
+    );
     return opt['color'] as Color;
   }
 
@@ -290,8 +377,18 @@ class _VoterDashboardState extends State<VoterDashboard> {
         title: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("E-Voting Portal", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
-            Text("Secure Democratic Platform", style: TextStyle(color: Colors.white70, fontSize: 11)),
+            Text(
+              "E-Voting Portal",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            Text(
+              "Secure Democratic Platform",
+              style: TextStyle(color: Colors.white70, fontSize: 11),
+            ),
           ],
         ),
         actions: [
@@ -304,7 +401,9 @@ class _VoterDashboardState extends State<VoterDashboard> {
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : (viewMode == 'dashboard' ? buildVoterDashboard() : buildBallotView()),
+          : (viewMode == 'dashboard'
+                ? buildVoterDashboard()
+                : buildBallotView()),
     );
   }
 
@@ -335,7 +434,11 @@ class _VoterDashboardState extends State<VoterDashboard> {
               ),
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 10, offset: const Offset(0, 4)),
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.08),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
               ],
             ),
             child: Column(
@@ -346,9 +449,17 @@ class _VoterDashboardState extends State<VoterDashboard> {
                   children: [
                     Text(
                       voter?.name ?? 'Registered Voter',
-                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
-                    const Icon(Icons.verified_user, color: Colors.tealAccent, size: 22),
+                    const Icon(
+                      Icons.verified_user,
+                      color: Colors.tealAccent,
+                      size: 22,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -356,19 +467,45 @@ class _VoterDashboardState extends State<VoterDashboard> {
                   children: [
                     const Icon(Icons.badge, color: Colors.white70, size: 13),
                     const SizedBox(width: 4),
-                    Text("Voter ID: ${voter?.voterId ?? 'N/A'}", style: const TextStyle(color: Colors.white90, fontSize: 12)),
+                    Text(
+                      "Voter ID: ${voter?.voterId ?? 'N/A'}",
+                      style: const TextStyle(
+                        color: Color(0xE6FFFFFF),
+                        fontSize: 12,
+                      ),
+                    ),
                     const SizedBox(width: 16),
-                    const Icon(Icons.credit_card, color: Colors.white70, size: 13),
+                    const Icon(
+                      Icons.credit_card,
+                      color: Colors.white70,
+                      size: 13,
+                    ),
                     const SizedBox(width: 4),
-                    Text("Aadhar: ${voter != null ? formatAadhar(voter!.aadharNumber) : 'N/A'}", style: const TextStyle(color: Colors.white90, fontSize: 12)),
+                    Text(
+                      "Aadhar: ${voter != null ? formatAadhar(voter!.aadharNumber) : 'N/A'}",
+                      style: const TextStyle(
+                        color: Color(0xE6FFFFFF),
+                        fontSize: 12,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 6),
                 Row(
                   children: [
-                    const Icon(Icons.location_on, color: Colors.white70, size: 13),
+                    const Icon(
+                      Icons.location_on,
+                      color: Colors.white70,
+                      size: 13,
+                    ),
                     const SizedBox(width: 4),
-                    Text("Registered City: ${voter?.city ?? 'N/A'}", style: const TextStyle(color: Colors.white90, fontSize: 12)),
+                    Text(
+                      "Registered City: ${voter?.city ?? 'N/A'}",
+                      style: const TextStyle(
+                        color: Color(0xE6FFFFFF),
+                        fontSize: 12,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -379,22 +516,38 @@ class _VoterDashboardState extends State<VoterDashboard> {
           // City selector card
           Card(
             elevation: 2,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
             color: Colors.white,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
               child: Row(
                 children: [
                   const Icon(Icons.location_city, color: Color(0xFF1A2980)),
                   const SizedBox(width: 12),
-                  const Text("Select Voting Jurisdiction: ", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                  const Text(
+                    "Select Voting Jurisdiction: ",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
                         value: selectedCity,
-                        style: const TextStyle(color: Color(0xFF1A2980), fontSize: 15, fontWeight: FontWeight.bold),
-                        items: cities.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
+                        style: const TextStyle(
+                          color: Color(0xFF1A2980),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        items: cities
+                            .map(
+                              (c) => DropdownMenuItem(value: c, child: Text(c)),
+                            )
+                            .toList(),
                         onChanged: (value) {
                           if (value != null) {
                             setState(() {
@@ -413,7 +566,11 @@ class _VoterDashboardState extends State<VoterDashboard> {
 
           Text(
             "Elections in $selectedCity",
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1A2980)),
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1A2980),
+            ),
           ),
           const SizedBox(height: 10),
 
@@ -424,9 +581,16 @@ class _VoterDashboardState extends State<VoterDashboard> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.inbox, size: 48, color: Colors.grey.shade400),
+                        Icon(
+                          Icons.inbox,
+                          size: 48,
+                          color: Colors.grey.shade400,
+                        ),
                         const SizedBox(height: 10),
-                        const Text("No elections active or scheduled in this city.", style: TextStyle(color: Colors.grey)),
+                        const Text(
+                          "No elections active or scheduled in this city.",
+                          style: TextStyle(color: Colors.grey),
+                        ),
                       ],
                     ),
                   )
@@ -438,12 +602,15 @@ class _VoterDashboardState extends State<VoterDashboard> {
                         final elec = filteredElections[index];
                         final status = getElectionStatus(elec);
                         final col = getStatusColor(status);
-                        final bool hasVotedInThis = votedStatusMap[elec.id] ?? false;
+                        final bool hasVotedInThis =
+                            votedStatusMap[elec.id] ?? false;
 
                         return Card(
                           margin: const EdgeInsets.only(bottom: 12),
                           elevation: 2,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           color: Colors.white,
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
@@ -451,25 +618,37 @@ class _VoterDashboardState extends State<VoterDashboard> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
                                       child: Text(
                                         elec.title,
-                                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF1A2980)),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                          color: Color(0xFF1A2980),
+                                        ),
                                       ),
                                     ),
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 4,
+                                      ),
                                       decoration: BoxDecoration(
-                                        color: hasVotedInThis ? Colors.teal.shade50 : col.withOpacity(0.1),
+                                        color: hasVotedInThis
+                                            ? Colors.teal.shade50
+                                            : col.withOpacity(0.1),
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: Text(
                                         hasVotedInThis ? "Voted ✓" : status,
                                         style: TextStyle(
                                           fontSize: 10,
-                                          color: hasVotedInThis ? Colors.teal.shade800 : col,
+                                          color: hasVotedInThis
+                                              ? Colors.teal.shade800
+                                              : col,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -477,57 +656,104 @@ class _VoterDashboardState extends State<VoterDashboard> {
                                   ],
                                 ),
                                 const SizedBox(height: 10),
-                                
+
                                 // Timelines
                                 if (status == 'Upcoming') ...[
-                                  Text("Voting opens: ${formatDateString(elec.startTime)}", style: const TextStyle(fontSize: 12, color: Colors.grey)),
-                                ] else if (status == 'Active (Voting Open)') ...[
-                                  Text("Voting closes: ${formatDateString(elec.endTime)}", style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                                  Text(
+                                    "Voting opens: ${formatDateString(elec.startTime)}",
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ] else if (status ==
+                                    'Active (Voting Open)') ...[
+                                  Text(
+                                    "Voting closes: ${formatDateString(elec.endTime)}",
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
                                 ] else ...[
-                                  Text("Closed: ${formatDateString(elec.endTime)}", style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                                  Text(
+                                    "Closed: ${formatDateString(elec.endTime)}",
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
                                 ],
                                 const SizedBox(height: 14),
 
                                 // Action Row
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       "${elec.parties.length} Contesting Candidates",
-                                      style: const TextStyle(fontSize: 12, color: Colors.black54, fontWeight: FontWeight.w500),
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
-                                    
+
                                     // Button decision
                                     if (status == 'Upcoming') ...[
                                       ElevatedButton(
-                                        onPressed: () => showCandidatesManifesto(elec),
+                                        onPressed: () =>
+                                            showCandidatesManifesto(elec),
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.grey.shade100,
                                           foregroundColor: Colors.black87,
                                           elevation: 0,
                                         ),
-                                        child: const Text("View Manifesto", style: TextStyle(fontSize: 12)),
+                                        child: const Text(
+                                          "View Manifesto",
+                                          style: TextStyle(fontSize: 12),
+                                        ),
                                       ),
-                                    ] else if (status == 'Active (Voting Open)') ...[
+                                    ] else if (status ==
+                                        'Active (Voting Open)') ...[
                                       if (hasVotedInThis) ...[
                                         OutlinedButton.icon(
-                                          onPressed: () => showCandidatesManifesto(elec),
-                                          icon: const Icon(Icons.verified, size: 14),
-                                          label: const Text("My Ballot", style: TextStyle(fontSize: 12)),
+                                          onPressed: () =>
+                                              showCandidatesManifesto(elec),
+                                          icon: const Icon(
+                                            Icons.verified,
+                                            size: 14,
+                                          ),
+                                          label: const Text(
+                                            "My Ballot",
+                                            style: TextStyle(fontSize: 12),
+                                          ),
                                           style: OutlinedButton.styleFrom(
-                                            foregroundColor: Colors.teal.shade700,
-                                            side: BorderSide(color: Colors.teal.shade200),
+                                            foregroundColor:
+                                                Colors.teal.shade700,
+                                            side: BorderSide(
+                                              color: Colors.teal.shade200,
+                                            ),
                                           ),
                                         ),
                                       ] else ...[
                                         ElevatedButton(
                                           onPressed: () => openBallot(elec),
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: const Color(0xFF1A2980),
+                                            backgroundColor: const Color(
+                                              0xFF1A2980,
+                                            ),
                                             foregroundColor: Colors.white,
                                             elevation: 3,
                                           ),
-                                          child: const Text("Cast Vote", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                                          child: const Text(
+                                            "Cast Vote",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ] else ...[
@@ -537,14 +763,26 @@ class _VoterDashboardState extends State<VoterDashboard> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => ResultsDashboard(electionId: elec.id, electionTitle: elec.title),
+                                              builder: (context) =>
+                                                  ResultsDashboard(
+                                                    electionId: elec.id,
+                                                    electionTitle: elec.title,
+                                                  ),
                                             ),
                                           );
                                         },
-                                        icon: const Icon(Icons.bar_chart, size: 16),
-                                        label: const Text("View Results", style: TextStyle(fontSize: 12)),
+                                        icon: const Icon(
+                                          Icons.bar_chart,
+                                          size: 16,
+                                        ),
+                                        label: const Text(
+                                          "View Results",
+                                          style: TextStyle(fontSize: 12),
+                                        ),
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: const Color(0xFF26D0CE),
+                                          backgroundColor: const Color(
+                                            0xFF26D0CE,
+                                          ),
                                           foregroundColor: Colors.white,
                                           elevation: 2,
                                         ),
@@ -569,7 +807,9 @@ class _VoterDashboardState extends State<VoterDashboard> {
   void showCandidatesManifesto(ElectionModel election) {
     showModalBottomSheet(
       context: context,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       builder: (context) {
         return Container(
           padding: const EdgeInsets.all(20),
@@ -578,10 +818,17 @@ class _VoterDashboardState extends State<VoterDashboard> {
             children: [
               Text(
                 election.title,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF1A2980)),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Color(0xFF1A2980),
+                ),
               ),
               const SizedBox(height: 6),
-              const Text("Contesting Parties and Manifestos:", style: TextStyle(color: Colors.grey, fontSize: 13)),
+              const Text(
+                "Contesting Parties and Manifestos:",
+                style: TextStyle(color: Colors.grey, fontSize: 13),
+              ),
               const SizedBox(height: 12),
               Expanded(
                 child: ListView.builder(
@@ -592,8 +839,15 @@ class _VoterDashboardState extends State<VoterDashboard> {
                       color: Colors.grey.shade50,
                       margin: const EdgeInsets.only(bottom: 10),
                       child: ListTile(
-                        leading: Icon(getSymbolIcon(p.symbolName), color: getSymbolColor(p.symbolName), size: 30),
-                        title: Text("${p.candidateName} (${p.name})", style: const TextStyle(fontWeight: FontWeight.bold)),
+                        leading: Icon(
+                          getSymbolIcon(p.symbolName),
+                          color: getSymbolColor(p.symbolName),
+                          size: 30,
+                        ),
+                        title: Text(
+                          "${p.candidateName} (${p.name})",
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         subtitle: Text(
                           p.details.isEmpty ? "No details provided" : p.details,
                           style: const TextStyle(fontSize: 12, height: 1.3),
@@ -624,7 +878,10 @@ class _VoterDashboardState extends State<VoterDashboard> {
               Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Color(0xFF1A2980)),
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Color(0xFF1A2980),
+                    ),
                     onPressed: closeBallot,
                   ),
                   Expanded(
@@ -635,9 +892,16 @@ class _VoterDashboardState extends State<VoterDashboard> {
                           activeBallotElection!.title,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1A2980)),
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1A2980),
+                          ),
                         ),
-                        const Text("Cast Ballot - Choose One Candidate", style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        const Text(
+                          "Cast Ballot - Choose One Candidate",
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
                       ],
                     ),
                   ),
@@ -653,7 +917,9 @@ class _VoterDashboardState extends State<VoterDashboard> {
                     return Card(
                       elevation: 3,
                       margin: const EdgeInsets.only(bottom: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       color: Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -664,21 +930,37 @@ class _VoterDashboardState extends State<VoterDashboard> {
                               children: [
                                 Container(
                                   padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(color: Colors.grey.shade50, shape: BoxShape.circle),
-                                  child: Icon(getSymbolIcon(p.symbolName), color: getSymbolColor(p.symbolName), size: 36),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade50,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    getSymbolIcon(p.symbolName),
+                                    color: getSymbolColor(p.symbolName),
+                                    size: 36,
+                                  ),
                                 ),
                                 const SizedBox(width: 16),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         p.candidateName,
-                                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF1A2980)),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                          color: Color(0xFF1A2980),
+                                        ),
                                       ),
                                       Text(
                                         p.name,
-                                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: Colors.grey.shade600),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 13,
+                                          color: Colors.grey.shade600,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -686,12 +968,25 @@ class _VoterDashboardState extends State<VoterDashboard> {
                               ],
                             ),
                             const SizedBox(height: 12),
-                            
-                            const Text("Candidate Manifesto:", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.black54)),
+
+                            const Text(
+                              "Candidate Manifesto:",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                color: Colors.black54,
+                              ),
+                            ),
                             const SizedBox(height: 4),
                             Text(
-                              p.details.isEmpty ? "No details/manifesto provided by this candidate." : p.details,
-                              style: const TextStyle(fontSize: 12, color: Colors.black87, height: 1.4),
+                              p.details.isEmpty
+                                  ? "No details/manifesto provided by this candidate."
+                                  : p.details,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.black87,
+                                height: 1.4,
+                              ),
                             ),
                             const SizedBox(height: 16),
 
@@ -700,12 +995,23 @@ class _VoterDashboardState extends State<VoterDashboard> {
                               child: ElevatedButton.icon(
                                 onPressed: () => handleCastVote(p),
                                 icon: const Icon(Icons.how_to_vote, size: 16),
-                                label: const Text("VOTE FOR CANDIDATE", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                                label: const Text(
+                                  "VOTE FOR CANDIDATE",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF1A2980),
                                   foregroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 10,
+                                  ),
                                 ),
                               ),
                             ),
@@ -719,7 +1025,7 @@ class _VoterDashboardState extends State<VoterDashboard> {
             ],
           ),
         ),
-        
+
         // Secure transaction progress spinner
         if (isVotingInProgress)
           Container(
@@ -732,17 +1038,30 @@ class _VoterDashboardState extends State<VoterDashboard> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1A2980))),
+                      CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          Color(0xFF1A2980),
+                        ),
+                      ),
                       SizedBox(height: 16),
-                      Text("Recording Secure Vote...", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1A2980))),
+                      Text(
+                        "Recording Secure Vote...",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1A2980),
+                        ),
+                      ),
                       SizedBox(height: 4),
-                      Text("Encrypting transaction securely...", style: TextStyle(color: Colors.grey, fontSize: 11)),
+                      Text(
+                        "Encrypting transaction securely...",
+                        style: TextStyle(color: Colors.grey, fontSize: 11),
+                      ),
                     ],
                   ),
                 ),
               ),
             ),
-          )
+          ),
       ],
     );
   }
