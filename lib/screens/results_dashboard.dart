@@ -28,12 +28,42 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
   List<Map<String, dynamic>> standingList = [];
 
   final List<Map<String, dynamic>> symbolOptions = [
-    {'id': 'lotus', 'name': 'Lotus', 'icon': Icons.brightness_high, 'color': Colors.orange},
-    {'id': 'hand', 'name': 'Hand', 'icon': Icons.front_hand, 'color': Colors.blue},
-    {'id': 'broom', 'name': 'Broom', 'icon': Icons.cleaning_services, 'color': Colors.brown},
-    {'id': 'elephant', 'name': 'Elephant', 'icon': Icons.cruelty_free, 'color': Colors.blueGrey},
-    {'id': 'cycle', 'name': 'Bicycle', 'icon': Icons.directions_bike, 'color': Colors.green},
-    {'id': 'star', 'name': 'Star', 'icon': Icons.star, 'color': Colors.yellow.shade700},
+    {
+      'id': 'lotus',
+      'name': 'Lotus',
+      'icon': Icons.brightness_high,
+      'color': Colors.orange,
+    },
+    {
+      'id': 'hand',
+      'name': 'Hand',
+      'icon': Icons.front_hand,
+      'color': Colors.blue,
+    },
+    {
+      'id': 'broom',
+      'name': 'Broom',
+      'icon': Icons.cleaning_services,
+      'color': Colors.brown,
+    },
+    {
+      'id': 'elephant',
+      'name': 'Elephant',
+      'icon': Icons.cruelty_free,
+      'color': Colors.blueGrey,
+    },
+    {
+      'id': 'cycle',
+      'name': 'Bicycle',
+      'icon': Icons.directions_bike,
+      'color': Colors.green,
+    },
+    {
+      'id': 'star',
+      'name': 'Star',
+      'icon': Icons.star,
+      'color': Colors.yellow.shade700,
+    },
   ];
 
   @override
@@ -66,7 +96,9 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
         });
       }
 
-      standings.sort((a, b) => (b['votes'] as int).compareTo(a['votes'] as int));
+      standings.sort(
+        (a, b) => (b['votes'] as int).compareTo(a['votes'] as int),
+      );
       standingList = standings;
 
       if (totalVotes > 0 && standings.isNotEmpty) {
@@ -86,12 +118,18 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
   }
 
   IconData getSymbolIcon(String symName) {
-    final opt = symbolOptions.firstWhere((o) => o['id'] == symName, orElse: () => symbolOptions.first);
+    final opt = symbolOptions.firstWhere(
+      (o) => o['id'] == symName,
+      orElse: () => symbolOptions.first,
+    );
     return opt['icon'] as IconData;
   }
 
   Color getSymbolColor(String symName) {
-    final opt = symbolOptions.firstWhere((o) => o['id'] == symName, orElse: () => symbolOptions.first);
+    final opt = symbolOptions.firstWhere(
+      (o) => o['id'] == symName,
+      orElse: () => symbolOptions.first,
+    );
     return opt['color'] as Color;
   }
 
@@ -124,8 +162,10 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
         children: [
           Icon(Icons.error_outline, size: 48, color: Colors.red.shade400),
           const SizedBox(height: 12),
-          const Text("Failed to load results. Election not found.",
-              style: TextStyle(color: Colors.grey)),
+          const Text(
+            "Failed to load results. Election not found.",
+            style: TextStyle(color: Colors.grey),
+          ),
         ],
       ),
     );
@@ -146,9 +186,10 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4)),
+                  color: Colors.black.withOpacity(0.04),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
               ],
               border: Border.all(color: Colors.grey.shade200),
             ),
@@ -158,26 +199,31 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
                 Text(
                   election!.title,
                   style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF1A2980)),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1A2980),
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Row(
                   children: [
                     const Icon(Icons.location_on, size: 14, color: Colors.grey),
                     const SizedBox(width: 4),
-                    Text(election!.city,
-                        style:
-                            const TextStyle(fontSize: 12, color: Colors.grey)),
+                    Text(
+                      election!.city,
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
                     const SizedBox(width: 16),
                     const Icon(Icons.people, size: 14, color: Colors.grey),
                     const SizedBox(width: 4),
-                    Text("$totalVotes total votes cast",
-                        style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w600)),
+                    Text(
+                      "$totalVotes total votes cast",
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -199,9 +245,10 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                      color: const Color(0xFF1A2980).withOpacity(0.3),
-                      blurRadius: 12,
-                      offset: const Offset(0, 6)),
+                    color: const Color(0xFF1A2980).withOpacity(0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
+                  ),
                 ],
               ),
               child: Column(
@@ -209,52 +256,63 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.18),
-                        shape: BoxShape.circle),
-                    child: const Icon(Icons.emoji_events,
-                        color: Colors.amber, size: 36),
+                      color: Colors.white.withOpacity(0.18),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.emoji_events,
+                      color: Colors.amber,
+                      size: 36,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   const Text(
                     "OFFICIAL WINNER",
                     style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 2.0),
+                      color: Colors.white70,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2.0,
+                    ),
                   ),
                   const SizedBox(height: 6),
                   Text(
                     winnerParty!.candidateName,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 0.5),
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
+                    ),
                   ),
                   Text(
                     winnerParty!.name,
                     style: const TextStyle(
-                        color: Colors.white90,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500),
+                      color: Color(0xE6FFFFFF),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 8,
+                    ),
                     decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(30)),
+                      color: Colors.white.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                     child: Text(
                       margin > 0
                           ? "Won by a margin of $margin ${margin == 1 ? 'vote' : 'votes'}!"
                           : "Won unopposed with $winnerVotes votes!",
                       style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -271,12 +329,16 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
               ),
               child: Column(
                 children: [
-                  Icon(Icons.info_outline,
-                      size: 48, color: Colors.grey.shade400),
+                  Icon(
+                    Icons.info_outline,
+                    size: 48,
+                    color: Colors.grey.shade400,
+                  ),
                   const SizedBox(height: 12),
-                  const Text("No ballots recorded",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                  const Text(
+                    "No ballots recorded",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
                   const SizedBox(height: 6),
                   const Text(
                     "Voting ended, but no voter participated in this election.",
@@ -293,16 +355,18 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
           const Text(
             "Vote Share Standings",
             style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF1A2980)),
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1A2980),
+            ),
           ),
           const SizedBox(height: 12),
 
           Card(
             elevation: 2,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
             color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -310,8 +374,7 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: standingList.length,
-                separatorBuilder: (context, index) =>
-                    const Divider(height: 24),
+                separatorBuilder: (context, index) => const Divider(height: 24),
                 itemBuilder: (context, index) {
                   final item = standingList[index];
                   final PartyModel p = item['party'] as PartyModel;
@@ -323,8 +386,11 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
                     children: [
                       Row(
                         children: [
-                          Icon(getSymbolIcon(p.symbolName),
-                              color: getSymbolColor(p.symbolName), size: 24),
+                          Icon(
+                            getSymbolIcon(p.symbolName),
+                            color: getSymbolColor(p.symbolName),
+                            size: 24,
+                          ),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Column(
@@ -333,13 +399,18 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
                                 Text(
                                   p.candidateName,
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                      color: Color(0xFF1A2980)),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: Color(0xFF1A2980),
+                                  ),
                                 ),
-                                Text(p.name,
-                                    style: const TextStyle(
-                                        color: Colors.grey, fontSize: 11)),
+                                Text(
+                                  p.name,
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 11,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -349,14 +420,17 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
                               Text(
                                 "$votes ${votes == 1 ? 'vote' : 'votes'}",
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 14),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
                               ),
                               Text(
                                 "${percentage.toStringAsFixed(1)}%",
                                 style: const TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w600),
+                                  color: Colors.black54,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ],
                           ),
@@ -368,8 +442,7 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: LinearProgressIndicator(
-                          value:
-                              totalVotes > 0 ? (votes / totalVotes) : 0.0,
+                          value: totalVotes > 0 ? (votes / totalVotes) : 0.0,
                           backgroundColor: Colors.grey.shade100,
                           valueColor: AlwaysStoppedAnimation<Color>(
                             index == 0 && totalVotes > 0
@@ -398,8 +471,11 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.shield_outlined,
-                    color: Colors.teal.shade700, size: 20),
+                Icon(
+                  Icons.shield_outlined,
+                  color: Colors.teal.shade700,
+                  size: 20,
+                ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
@@ -408,9 +484,10 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
                       Text(
                         "Absolute Confidentiality Assured",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 13,
-                            color: Colors.teal.shade900),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                          color: Colors.teal.shade900,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -418,9 +495,10 @@ class _ResultsDashboardState extends State<ResultsDashboard> {
                         "Because individual votes are stored anonymously without any linking tokens, "
                         "it is mathematically impossible for administrators or external entities to trace who voted for whom.",
                         style: TextStyle(
-                            color: Colors.teal.shade800,
-                            fontSize: 11,
-                            height: 1.4),
+                          color: Colors.teal.shade800,
+                          fontSize: 11,
+                          height: 1.4,
+                        ),
                       ),
                     ],
                   ),
